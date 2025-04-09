@@ -56,6 +56,12 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+tasks.jar {
+	manifest {
+		attributes["Main-Class"] = "br.com.caio.barbershopapi.BarberShopApiApplication"
+	}
+}
+
 tasks.named("build") {
 	doLast{
 		val trigger = file("src/main/resources/trigger.txt")
