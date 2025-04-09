@@ -4,8 +4,8 @@ import java.util.*
 
 plugins {
 	java
-	id("org.springframework.boot") version "3.4.2"
-	id("io.spring.dependency-management") version "1.1.7"
+	id("org.springframework.boot") version "3.2.5"
+	id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "br.com.dio"
@@ -13,8 +13,14 @@ version = "0.0.1-SNAPSHOT"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion.set(JavaLanguageVersion.of(17))
 	}
+}
+
+val mapStructVersion = "1.6.3"
+
+repositories {
+	mavenCentral()
 }
 
 configurations {
@@ -23,18 +29,14 @@ configurations {
 	}
 }
 
-repositories {
-	mavenCentral()
-}
-
-var mapStructVersion = "1.6.3"
+val flywayVersion = "10.14.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.flywaydb:flyway-core")
-	implementation("org.flywaydb:flyway-database-postgresql")
+	implementation("org.flywaydb:flyway-core:$flywayVersion")
+	implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
 	implementation("org.mapstruct:mapstruct:$mapStructVersion")
 
 	compileOnly("org.projectlombok:lombok")
@@ -48,7 +50,6 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -63,17 +64,16 @@ tasks.jar {
 }
 
 tasks.named("build") {
-	doLast{
+	doLast {
 		val trigger = file("src/main/resources/trigger.txt")
-		if (!trigger.exists()){
+		if (!trigger.exists()) {
 			trigger.createNewFile()
 		}
 		trigger.writeText(Date().time.toString())
 	}
 }
 
-tasks.register("generateFlywayMigrationFile"){
-
+tasks.register("generateFlywayMigrationFile") {
 	description = "Generate flyway migration"
 	group = "Flyway"
 
@@ -93,6 +93,5 @@ tasks.register("generateFlywayMigrationFile"){
 		migrationFile.writeText("-- $migrationName generated in ${migrationsDir.path}")
 
 		logger.lifecycle("Migration file created: ${migrationFile.path}")
-
 	}
 }
