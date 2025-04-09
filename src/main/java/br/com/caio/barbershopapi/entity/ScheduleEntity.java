@@ -21,10 +21,10 @@ public class ScheduleEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name="start_at")
+    @Column(nullable = false, name="start_in")
     private OffsetDateTime startAt;
 
-    @Column(nullable = false, name="end_at")
+    @Column(nullable = false, name="end_in")
     private OffsetDateTime endAt;
 
     @ToString.Exclude
@@ -58,5 +58,21 @@ public class ScheduleEntity {
 
     public void setEndAt(OffsetDateTime endAt) {
         this.endAt = endAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ClientEntity getClient() {
+        return client;
+    }
+
+    public void setClient(ClientEntity client) {
+        this.client = client;
     }
 }

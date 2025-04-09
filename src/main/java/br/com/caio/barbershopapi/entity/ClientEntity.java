@@ -84,4 +84,12 @@ public class ClientEntity {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public Set<ScheduleEntity> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<ScheduleEntity> schedules) {
+        this.schedules = schedules;
+    }
 }
